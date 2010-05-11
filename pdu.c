@@ -21,7 +21,7 @@ Either version 2 of the License, or (at your option) any later version.
 #include <syslog.h>
 #include "pdu.h"
 #include "smsd_cfg.h"
-#include "logging.h"
+// #include "logging.h"
 #include "charset.h" // required for conversions of partial text content.
 
 #define MAX_ADDRESS_LENGTH 50
@@ -48,7 +48,7 @@ int add_warning(char *buffer, char *format, ...)
     else
     {
       result = 0;
-      writelogfile(LOG_ERR, 1, "PDU %s%s", title, text);
+      // writelogfile(LOG_ERR, 1, "PDU %s%s", title, text);
     }
   }
 
@@ -290,6 +290,8 @@ int set_numberformat(int *numberformat, char *number, int number_type)
 // flash_sms enables the flash flag.
 // mode select the pdu version (old or new).
 // if udh is true, then udh_data contains the optional user data header in hex dump, example: "05 00 03 AF 02 01"
+
+// smsd.c:  make_pdu(to,text,textlen,alphabet,flash,report,with_udh,udh_data,DEVICE.mode,pdu,validity, replace_msg, system_msg, to_type);
 
 void make_pdu(char* number, char* message, int messagelen, int alphabet, int flash_sms, int report, int with_udh,
               char* udh_data, char* mode, char* pdu, int validity, int replace_msg, int system_msg, int number_type)
@@ -1420,7 +1422,7 @@ int split_type_2(char *full_pdu, char* Src_Pointer,char* sendr, char* date,char*
 // is_statusreport is 1 if this was a status report
 // is_unsupported_pdu is 1 if this pdu was not supported
 // Returns the length of the message 
-int splitpdu(char *pdu, char *mode, int *alphabet, char *sendr, char *date, char *time, char *message,
+/* int splitpdu(char *pdu, char *mode, int *alphabet, char *sendr, char *date, char *time, char *message,
              char *smsc, int *with_udh, char *a_udh_data, char *a_udh_type, int *is_statusreport,
              int *is_unsupported_pdu, char *from_toa, int *report, int *replace, char *warning_headers,
              int *flash, int bin_udh)
@@ -1697,7 +1699,9 @@ int splitpdu(char *pdu, char *mode, int *alphabet, char *sendr, char *date, char
 
   return result;
 }
+*/
 
+/*
 int get_pdu_details(char *dest, size_t size_dest, char *pdu, int mnumber)
 {
   int result = 0;
@@ -1733,7 +1737,7 @@ int get_pdu_details(char *dest, size_t size_dest, char *pdu, int mnumber)
 
   if (is_unsupported_pdu)
   {
-    writelogfile(LOG_ERR, 1, "Message %i, unsupported PDU.", mnumber);
+    // writelogfile(LOG_ERR, 1, "Message %i, unsupported PDU.", mnumber);
     result = 1;
   }
   else
@@ -1742,7 +1746,7 @@ int get_pdu_details(char *dest, size_t size_dest, char *pdu, int mnumber)
     {
       if (get_remove_concatenation(udh_data, &m_id, &p_count, &p_number) < 0)
       {
-        writelogfile(LOG_ERR, 1, "Message %i, error while checking UDH_DATA.", mnumber);
+        // writelogfile(LOG_ERR, 1, "Message %i, error while checking UDH_DATA.", mnumber);
         result = 2;
       }
     }
@@ -1751,7 +1755,7 @@ int get_pdu_details(char *dest, size_t size_dest, char *pdu, int mnumber)
     {
       if (strlen(sender) > length_sender)
       {
-        writelogfile(LOG_ERR, 1, "Message %i, too long sender field.", mnumber);
+        // writelogfile(LOG_ERR, 1, "Message %i, too long sender field.", mnumber);
         result = 3;
       }    
 
@@ -1781,40 +1785,13 @@ int get_pdu_details(char *dest, size_t size_dest, char *pdu, int mnumber)
           p = strchr(p, 0) +1;
         }
       }
-/*
-001 A 358401234567____________________111 001/001 r 00-00-00 00-00-00n
-mnumber
-    sort_ch
-      sender
-                                      m_id
-                                          p_number
-                                              p_count
-                                                  incoming / report
-                                                    date
-                                                             time
-
-      snprintf(buffer, sizeof(buffer), "%.03i %c %s%.03i %.03i/%.03i %c %-8.8s %-8.8s\n",
-               mnumber, sort_ch, sender, m_id, p_number, p_count, (is_statusreport) ? 'r' : 'i', date, time);
-
-3.1.7:
-001 A 00-00-00 00-00-00 358401234567____________________111 001/001 rn
-mnumber
-    sort_ch
-      date
-               time
-                        sender
-                                                        m_id
-                                                            p_number
-                                                                p_count
-                                                                    incoming / report
-*/
       snprintf(buffer, sizeof(buffer), "%.03i %c %-8.8s %-8.8s %s%.03i %.03i/%.03i %c\n", mnumber, sort_ch, date, time, sender, m_id, p_number, p_count, (is_statusreport) ? 'r' : 'i');
 
       if (strlen(dest) +strlen(buffer) < size_dest)
         strcat(dest, buffer);
       else
       {
-        writelogfile(LOG_ERR, 1, "Message %i, not enough storage space.", mnumber);
+        // writelogfile(LOG_ERR, 1, "Message %i, not enough storage space.", mnumber);
         result = 4;
       }
     }
@@ -1822,6 +1799,7 @@ mnumber
 
   return result;
 }
+*/
 
 int sort_pdu_helper(const void *a, const void *b)
 {
