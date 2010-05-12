@@ -101,16 +101,16 @@ int isXdigit(char ch)
 /* Swap every second character */
 void swapchars(char* string) 
 {
-  int Length;
+  int length;
   int position;
   char c;
 
-  Length=strlen(string);
-  for (position=0; position<Length-1; position+=2)
+  length = strlen(string);
+  for (position = 0; position < length - 1; position += 2)
   {
-    c=string[position];
-    string[position]=string[position+1];
-    string[position+1]=c;
+    c = string[position];
+    string[position] = string[position+1];
+    string[position + 1] = c;
   }
 }
 
@@ -317,6 +317,8 @@ void make_pdu(char* number, char* message, int messagelen, int alphabet, int fla
   }
 
   set_numberformat(&numberformat, tmp, number_type);
+  printf("Numberformat: %i\n", numberformat);
+
 
   numberlength=strlen(tmp);
   // terminate the number with F if the length is odd
